@@ -1,0 +1,326 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#define M 1000
+struct student
+{
+	char name[30];
+	char num[30];
+	int bj;
+	int math;
+	int yy;
+	int s;
+};
+void input(struct student stu[M]);
+void output(struct student stu[M]);
+void del(struct student stu[M]);
+void gai(struct student stu[M]);
+void chakan(struct student stu[M]);
+void name_(struct student stu[M]);
+void num_(struct student stu[M]);
+void order(struct student stu[M]);
+int count=0;
+struct student t;
+int main()
+{
+    	int sum=0,xuan;
+		struct student stu[M];
+do
+{
+    	printf("学生成绩信息管理系统\n");
+	    printf("1、输入学生信息\n");
+	    printf("2、浏览学生信息\n");
+	    printf("3、查询学生信息\n");
+	    printf("4、修改学生成绩\n");
+	    printf("5、删除学生信息\n");
+	    printf("6、学生信息排序\n");
+	    printf("0、退出系统\n");
+	    scanf("%d",&xuan); 
+	    fflush(stdin);
+	if (xuan>9||xuan<=0)
+	{
+	sum++;
+	if (sum>=8)
+	{
+	printf("输入错误次数过8次,程序将重新开始\n");
+	system("pause"); 
+	system("cls");
+    }
+    }
+switch (xuan)
+	{
+	case 1:input(stu);break;
+	case 2:output(stu);break;
+	case 3:chakan(stu);break; 
+	case 4:gai(stu);break;  
+	case 5:del(stu);break;  
+	case 6:order(stu);break; 
+	case 0:printf("程序结束\n");system("pause");break;
+	default:printf("输入无效,请重新输入\n");break;
+	}
+	}
+while (xuan!=0);
+	printf(" \n");
+	return 0;
+}
+
+void input(struct student stu[M])
+{
+	int len;
+	system("cls");
+	printf("请添加要输入学生的信息\n");
+	do
+{
+	printf("输入学生学号(10位数)\n");
+	scanf("%s",&stu[count].num);
+	len=strlen(stu[count].num);
+	}
+while(len!=10);
+	printf("输入同学的姓名(字母)\n");
+	scanf("%s",stu[count].name);
+	printf("输入学生班级号码:1、19-1 2、19-2 3、19-3 \n");
+	scanf("%d",&stu[count].bj);
+	do 
+{
+	printf("按顺序输入学生成绩\n");
+	printf("高数、英语\n");
+	scanf("%d%d",&stu[count].math,&stu[count].yy);
+	}
+while(stu[count].math>100||stu[count].yy>100);
+	stu[count].s=(stu[count].math+stu[count].yy);
+	count++; 
+}
+void output(struct student stu[M])
+{
+	int j;
+	system("cls");
+	if (count==0)
+	{
+	printf("无学生信息\n");
+	return;
+	}
+	for (j=0;j<count;j++)
+	{
+	for (j=0;j<count;j++)
+	{ 
+	printf("学号:%s  ",stu[j].num);
+	printf("姓名:%s  ",stu[j].name);
+	printf("班级:19-%d  ",stu[j].bj);
+	printf("高数:%d  ",stu[j].math);
+	printf("英语:%d  ",stu[j].yy);
+	printf("总分:%d ",stu[j].s);
+	printf("顺序:%d \n",j+1);
+	}
+    }
+}
+void chakan(struct student stu[M])
+{
+	int j=0;
+	char name[25];
+	system("cls");
+	if(count==0)
+	{
+		printf("无学生信息\n");
+		return;
+   }
+	else
+	{
+		printf("请输入你想要查看的同学姓名\n");
+		scanf("%s",&name);
+		fflush(stdin);
+	for(j=0;j<count;j++)
+	{
+		if(strcmp(stu[j].name,name)==0)
+		{
+	printf("学号:%s  ",stu[j].num);
+	printf("姓名:%s  ",stu[j].name);
+	printf("班级:19-%d  ",stu[j].bj);
+	printf("高数:%d  ",stu[j].math);
+	printf("英语:%d  ",stu[j].yy);
+	printf("总分:%d ",stu[j].s);
+		int a,b,c=j;
+	for (a=0;a<count;a++)
+	{
+		for (b=a+1;b<count;b++)
+		{
+			if (stu[b].s>stu[a].s)
+			{
+				t=stu[b];
+				stu[b]=stu[a];
+				stu[a]=t;
+			}
+		}
+	}
+	int d=1;
+	for(a=0;a<count;a++)
+	{
+		if(stu[c].s<stu[a].s)
+		d++;
+		else
+		break;
+	}
+	printf("总分排名:%d\n",d);
+ 	}
+	}
+	}
+	if(j==count)
+	printf("没有你所查看的学生信息\n");
+    }
+void gai(struct student stu[M])
+{
+	int j,course;
+	char xh[25];
+	system("cls");
+	if (count==0)
+	{
+	printf("无学生信息\n");
+	return;
+	}
+	else
+	{
+	printf("需要修改的学生学号为:\n");
+	scanf("%s",&xh);
+	fflush(stdin);
+	for (j=0;j<count;j++)
+	if (strcmp(stu[j].num,xh)==0)
+	{
+	printf("修改学生成绩\n");
+	printf("选择课程: 1、高数 2、英语\n");
+	scanf("%d",&course);
+	printf("改为多少分:\n");
+	switch(course)
+	{ 
+	case 1:scanf("%d",&stu[j].math);break;
+	case 2:scanf("%d",&stu[j].yy);break;
+	default:printf("请重新输入\n");break;
+	}
+	}
+	}
+}
+void del(struct student stu[M]) 
+{
+	int choice;
+	system("cls");//清屏语句
+	if (count==0)
+	{
+	printf("无学生信息\n");
+	return;
+	}
+	else
+	{
+	printf("请选择你所要删除的方式:1、学号 2、姓名 3、取消\n");
+	scanf("%d",&choice);
+	switch(choice)
+	{
+	case 3:return;break;
+	case 2:name_(stu);break;
+	case 1:num_(stu);break;
+	default:printf("，输入错误，重新输入\n");break;
+	}
+	}
+}
+void num_(struct student stu[M])
+{
+	int j,index=0,k=count;
+	char xh[25];
+	system("cls");
+	printf("所要删除的学生学号为：\n");
+	scanf("%s",xh);
+	fflush(stdin);
+	for (j=0;j<count;j++)
+	{
+		if (strcmp(stu[j].num,xh)==0)
+	   {
+	for (j=index;j<count;j++)
+	stu[j]=stu[j+1];
+	count--;
+		if (count<k)
+	printf("删除成功\n");
+	    }
+	index++;}
+	if (j==count)
+	printf("没有你所要删除的学生的信息\n");
+}
+void name_(struct student stu[M])          
+{
+	int flag=0,j,k=count;
+	char xm[25];
+	system("cls");
+	printf("所要删除的学生学号为：\n");
+	scanf("%s",xm);
+	fflush(stdin);
+	for (j=0;j<count;j++)
+	{
+	if (strcmp(stu[j].num,xm)==0)
+	{
+	for (j=flag-1;j<count;j++)
+	stu[j]=stu[j+1];
+	count--;
+	if (count<k)
+	printf("删除成功\n");
+	}
+	flag++;
+}
+	if (j==count)
+	printf("没有你所要删除的学生的信息\n");
+}
+void order(struct student stu[M])
+{
+	int j,choice,i;
+	system("cls");
+	printf("请输入你想要进行排序的方式(所有排序的方式均是降序)\n");
+	printf("1、高数 2、英语  3、总分 4、学号 \n");
+	scanf("%d",&choice);
+	switch (choice)
+   {
+   	case 1:for (i=0;i<count;i++) 
+    {
+	for (j=i+1;j<count;j++)
+	{
+    	if (stu[j].math>stu[i].math)
+    	{	t=stu[j];
+			stu[j]=stu[i];
+			stu[i]=t;
+		}
+    }
+	};break;
+	case 2:for (i=0;i<count;i++) 
+    {
+	for (j=i+1;j<count;j++)
+	{
+    	if (stu[j].yy>stu[i].yy)
+    	{	t=stu[j];
+			stu[j]=stu[i];
+			stu[i]=t;
+		}
+     	}
+	}
+	break;
+	case 3:for (i=0;i<count;i++) 
+    {
+	for (j=i+1;j<count;j++)
+	{
+    	if (stu[j].s>stu[i].s)
+    	{
+			t=stu[j];
+			stu[j]=stu[i];
+			stu[i]=t;
+		}
+    }
+	}
+	break;
+    case 4:for (i=0;i<count;i++) 
+    {
+	for (j=i+1;j<count;j++)
+	{
+    	if (strcmp(stu[j].num,stu[i].num)<0)
+    	{	t=stu[j];
+			stu[j]=stu[i];
+			stu[i]=t;
+		}
+     }
+	}
+	break;
+	default:printf("请重新输入\n");break;
+	}
+}
